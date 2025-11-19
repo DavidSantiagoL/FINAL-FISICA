@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Física en la Vida Real</title>
+
+    <!-- FUENTE CAUDEX -->
+    <link href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ====== PALETA ======
+           Negro: #000
+           Morado neón: #7A00FF
+           Azul eléctrico: #006CFF
+           Azul oscuro: #00152E
+           Morado profundo: #2A0039
+        */
+
+        body {
+            font-family: "Caudex", serif;
+            background: radial-gradient(circle at center, #2A0039, #000000 70%);
+            margin: 0;
+            padding: 0;
+            color: #EDEDED;
+        }
+
+        /* ===== HEADER — AHORA TIENE EL MISMO FONDO QUE EL RESTO ===== */
+        header {
+            background: radial-gradient(circle at center, #2A0039, #000000 70%);
+            padding: 35px;
+            text-align: center;
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px #7A00FF;
+            border-bottom: 2px solid #7A00FF;
+        }
+
+        /* ===== CONTENEDOR ===== */
+        .container {
+            max-width: 750px;
+            margin: 50px auto;
+            background: #00152E;
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid #7A00FF;
+            box-shadow: 0 0 30px #006CFF;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ===== INPUTS & BOTONES ===== */
+        input, button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-family: "Caudex", serif;
+            background: #0D0D0D;
+            border: 2px solid #006CFF;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #7A00FF;
+            box-shadow: 0 0 12px #7A00FF;
+        }
+
+        button {
+            background: #006CFF;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 14px #006CFF;
+        }
+
+        button:hover {
+            background: #7A00FF;
+            box-shadow: 0 0 18px #7A00FF;
+        }
+
+        /* ===== SECCIONES ===== */
+        h3 {
+            color: #7A00FF;
+            border-left: 6px solid #006CFF;
+            padding-left: 12px;
+            font-size: 24px;
+            margin-top: 30px;
+        }
+
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background: #0D0D0D;
+            border: 2px solid #7A00FF;
+            border-radius: 8px;
+            box-shadow: 0 0 18px #7A00FF;
+            font-size: 18px;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body>
+
+<header>
+    Física en la Vida Real
+</header>
+
+<div class="container">
+
+    <label><strong>Describe tu problema en una frase:</strong></label>
+    <input type="text" id="descripcion" placeholder="Ej: Necesito empujar un objeto...">
+
+    <button onclick="analizar()">Analizar</button>
+
+    <div id="formularios"></div>
+
+    <div id="resultado" class="resultado hidden"></div>
+</div>
+
+<script>
+    function analizar() {
+        const texto = document.getElementById("descripcion").value.toLowerCase();
+        const areaFormularios = document.getElementById("formularios");
+        const resultado = document.getElementById("resultado");
+
+        resultado.classList.add("hidden");
+        resultado.innerHTML = "";
+        areaFormularios.innerHTML = "";
+
+        if (texto.includes("fuerza") || texto.includes("empujar") || texto.includes("mover")) {
+            mostrarFormularioFuerza();
+
+        } else if (texto.includes("energia") || texto.includes("bombilla") || texto.includes("consumo")) {
+            mostrarFormularioEnergia();
+
+        } else if (texto.includes("presion") || texto.includes("suelo") || texto.includes("superficie")) {
+            mostrarFormularioPresion();
+
+        } else {
+            areaFormularios.innerHTML = `
+                <p>No reconocí el tipo de problema. Intenta mencionar palabras como:</p>
+                <ul>
+                    <li>fuerza, empujar</li>
+                    <li>energía, bombilla</li>
+                    <li>presión, superficie</li>
+                </ul>
+            `;
+        }
+    }
+
+    function mostrarFormularioFuerza() {
+        document.getElementById("formularios").innerHTML = `
+            <h3>Problema de Fuerza (F = m · a)</h3>
+            <label>Masa (kg):</label>
+            <input type="number" id="masa">
+
+            <label>Aceleración (m/s²):</label>
+            <input type="number" id="aceleracion">
+
+            <button onclick="calcularFuerza()">Calcular Fuerza</button>
+        `;
+    }
+
+    function mostrarFormularioEnergia() {
+        document.getElementById("formularios").innerHTML = `
+            <h3>Problema de Energía Eléctrica (E = P · t)</h3>
+            <label>Potencia (W):</label>
+            <input type="number" id="potencia">
+
+            <label>Horas de uso:</label>
+            <input type="number" id="horas">
+
+            <button onclick="calcularEnergia()">Calcular Energía</button>
+        `;
+    }
+
+    function mostrarFormularioPresion() {
+        document.getElementById("formularios").innerHTML = `
+            <h3>Problema de Presión (P = F / A)</h3>
+            <label>Fuerza (N):</label>
+            <input type="number" id="fuerza">
+
+            <label>Área (m²):</label>
+            <input type="number" id="area">
+
+            <button onclick="calcularPresion()">Calcular Presión</button>
+        `;
+    }
+
+    function calcularFuerza() {
+        const masa = parseFloat(document.getElementById("masa").value);
+        const acel = parseFloat(document.getElementById("aceleracion").value);
+        const F = masa * acel;
+
+        mostrarResultado(`
+            <strong>Fuerza necesaria:</strong> ${F} N<br><br>
+            Para mover un objeto de ${masa} kg con una aceleración de ${acel} m/s²
+            se necesita una fuerza de <strong>${F} Newtons</strong>.
+        `);
+    }
+
+    function calcularEnergia() {
+        const P = parseFloat(document.getElementById("potencia").value);
+        const h = parseFloat(document.getElementById("horas").value);
+        const Wh = P * h;
+        const kWh = Wh / 1000;
+
+        mostrarResultado(`
+            <strong>Energía consumida:</strong> ${kWh} kWh<br><br>
+            Una potencia de ${P} W usada por ${h} horas consume 
+            <strong>${kWh} kilovatios-hora</strong>.
+        `);
+    }
+
+    function calcularPresion() {
+        const F = parseFloat(document.getElementById("fuerza").value);
+        const A = parseFloat(document.getElementById("area").value);
+        const P = F / A;
+
+        mostrarResultado(`
+            <strong>Presión ejercida:</strong> ${P} Pa<br><br>
+            Al aplicar ${F} N sobre un área de ${A} m², 
+            la presión es de <strong>${P} Pascales</strong>.
+        `);
+    }
+
+    function mostrarResultado(html) {
+        const res = document.getElementById("resultado");
+        res.classList.remove("hidden");
+        res.innerHTML = html;
+    }
+</script>
+
+</body>
+</html>
